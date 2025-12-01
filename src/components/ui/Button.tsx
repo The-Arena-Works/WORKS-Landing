@@ -32,10 +32,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }}
         />
         <span 
-          className="relative z-10 font-medium transition-colors duration-300 group-hover:text-[#050505]"
-          style={{
-            color: variant === 'outline' ? '#F2F2F2' : '#050505'
-          }}
+          className={cn(
+            "relative z-10 font-medium transition-colors duration-300",
+            variant === 'outline' ? "text-[#F2F2F2] group-hover:text-[#050505]" : "text-[#050505] group-hover:text-[#F2F2F2]"
+          )}
         >
           {children}
         </span>
