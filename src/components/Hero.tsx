@@ -1,7 +1,25 @@
 import { motion } from 'framer-motion';
 import { Button } from './ui/Button';
+import { useState, useEffect } from 'react';
+
+const locations = [
+  { coord: '6.5244° N, 3.3792° E', city: 'LAGOS, NG' },
+  { coord: '51.5074° N, 0.1278° W', city: 'LONDON, UK' },
+  { coord: '38.7223° N, 9.1393° W', city: 'LISBON, PT' },
+  { coord: '27.4698° S, 153.0251° E', city: 'BRISBANE, AU' }
+];
 
 const Hero = () => {
+  const [locationIndex, setLocationIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLocationIndex((prev) => (prev + 1) % locations.length);
+    }, 5000); // Change every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section 
       className="relative w-full h-screen overflow-hidden flex flex-col justify-center items-center px-6"
@@ -67,17 +85,22 @@ const Hero = () => {
         </Button>
       </motion.div>
 
-      {/* Decorative Technical Elements */}
-      <div 
+      {/* Decorative Technical Elements - Rotating Coordinates */}
+      <motion.div 
+        key={locationIndex}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
         className="absolute bottom-8 left-8 text-xs hidden md:block"
         style={{ 
           color: '#333333',
           fontFamily: 'Space Mono, monospace' 
         }}
       >
-        COORD: 6.5244° N, 3.3792° E <br/>
-        LOC: LAGOS, NG
-      </div>
+        COORD: {locations[locationIndex].coord} <br/>
+        LOC: {locations[locationIndex].city}
+      </motion.div>
       
       <div 
         className="absolute bottom-8 right-8 text-xs animate-pulse"
